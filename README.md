@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bitrix Dashboard
 
-## Getting Started
+Трёхстраничный сайт с интеграцией Битрикс24 API, построенный на Next.js с TypeScript.
 
-First, run the development server:
+## Функциональность
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Регистрация/Авторизация**: Создание контактов в Битрикс24 и локальной БД
+- **Дашборд**: Отображение заказов, профиля, трансляции и платежей
+- **Профиль**: Редактирование данных пользователя с синхронизацией в Битрикс24
+
+## Технологии
+
+- Next.js 14 с TypeScript
+- Material-UI (MUI)
+- SCSS
+- Swiper для слайдеров
+- better-sqlite3 для базы данных
+- bcryptjs для хеширования паролей
+
+## Установка
+
+1. Клонируйте репозиторий
+2. Установите зависимости:
+   ```bash
+   npm install
+   ```
+
+3. Скопируйте файл окружения:
+   ```bash
+   cp env.example .env.local
+   ```
+
+4. Настройте переменные окружения в `.env.local`:
+   - `BITRIX_WEBHOOK_URL` - URL вебхука из Битрикс24
+
+5. Заполните базу данных моковыми данными:
+   ```bash
+   npx tsx scripts/seed-database.ts
+   ```
+
+6. Запустите приложение:
+   ```bash
+   npm run dev
+   ```
+
+## Настройка Битрикс24
+
+1. Создайте аккаунт Битрикс24
+2. Перейдите в: Приложения → Разработчикам → Другое → Входящий вебхук
+3. Нажмите «Включить демо-тариф»
+4. Скопируйте URL вебхука в переменную `BITRIX_WEBHOOK_URL`
+
+## Структура проекта
+
+```
+src/
+├── app/                 # Next.js App Router
+│   ├── api/            # API роуты
+│   ├── auth/           # Страница авторизации
+│   ├── dashboard/      # Дашборд
+│   └── profile/        # Профиль пользователя
+├── components/         # React компоненты
+├── lib/               # Утилиты и конфигурация
+└── types/             # TypeScript типы
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Endpoints
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `POST /api/auth` - Авторизация/регистрация
+- `PUT /api/profile` - Обновление профиля
+- `GET /api/orders` - Получение заказов
+- `GET /api/payments` - Получение платежей
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Особенности
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Валидация форм на клиенте и сервере
+- Адаптивный дизайн для мобильных устройств
+- Хеширование паролей
+- Синхронизация данных с Битрикс24
+- Фильтрация платежей
+- Swiper слайдер для заказов
